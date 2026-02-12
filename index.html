@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyLine Analytics - Project Gatekeeper</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        :root {
+            --primary-bg: #f4f7f6;
+            --accent: #2563eb;
+            --error: #dc2626;
+            --border: #d1d5db;
+        }
+
+        body { font-family: 'Inter', sans-serif; background: var(--primary-bg); margin: 0; }
+        
+        .flex-center { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+
+        /* Requirement: Form Feedback via Dynamic Classes  */
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 350px; }
+        
+        .input-field { width: 100%; padding: 0.75rem; margin-top: 0.5rem; border-radius: 6px; box-sizing: border-box; }
+        
+        .border-gray { border: 1px solid var(--border); }
+        .border-red { border: 2px solid var(--error); }
+
+        .btn { width: 100%; background: var(--accent); color: white; padding: 0.75rem; border: none; border-radius: 6px; cursor: pointer; margin-top: 1.5rem; }
+        .error-msg { color: var(--error); font-size: 0.85rem; margin-top: 0.5rem; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Requirement: Component Architecture - Reusable Pieces [cite: 42]
+        const InputGroup = ({ label, type, value, onChange, isError }) => (
+            <div style={{ marginBottom: '1rem' }}>
+                <label>{label}</label>
+                <input 
+                    type={type} 
+                    value={value} 
+                    onChange={onChange}
+                    className={`input-field ${isError ? 'border-red' : 'border-gray'}`}
+                />
+            </div>
+        );
+
+        const App = () => {
+            // Requirement: State Management (useState) [cite: 43]
+            const [form, setForm] = React.useState({ email: '', password: '' });
+            const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+            const [error, setError] = React.useState(false);
+
+            // Requirement: Event Handling (onSubmit) 
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                
+                // Requirement: Auth Check Logic 
+                if (form.email === "user@tip.edu.ph" && form.password === "admin123") {
+                    setIsLoggedIn(true);
+                    setError(false);
+                } else {
+                    setError(true);
+                }
+            };
+
+            // Requirement: Conditional Rendering [cite: 44]
+            if (isLoggedIn) {
+                return (
+                    <div className="flex-center">
+                        <div className="card">
+                            <h2>Welcome, SkyLine Developer!</h2>
+                            <p>Project Gatekeeper Status: <strong>Authorized</strong></p>
+                            <button className="btn" onClick={() => setIsLoggedIn(false)}>Logout</button>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="flex-center">
+                    <form className="card" onSubmit={handleSubmit}>
+                        <h2>SkyLine Analytics</h2>
+                        <p>Junior Frontend Dashboard</p>
+                        
+                        <InputGroup 
+                            label="Email" 
+                            type="email" 
+                            value={form.email} 
+                            isError={error}
+                            onChange={(e) => setForm({...form, email: e.target.value})} 
+                        />
+                        
+                        <InputGroup 
+                            label="Password" 
+                            type="password" 
+                            value={form.password} 
+                            isError={error}
+                            onChange={(e) => setForm({...form, password: e.target.value})} 
+                        />
+
+                        {error && <p className="error-msg">Invalid credentials. Access Denied.</p>}
+                        
+                        <button type="submit" className="btn">Login</button>
+                    </form>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

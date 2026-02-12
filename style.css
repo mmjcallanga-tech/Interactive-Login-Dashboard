@@ -1,0 +1,51 @@
+:root {
+  --primary: #2563eb;
+  --danger: #ef4444;
+  --gray: #d1d5db;
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.login-card, .dashboard {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.input-group { margin-bottom: 1.25rem; }
+.input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 6px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+/* Logic Flow Requirements for Feedback */
+.border-gray { border: 1px solid var(--gray); }
+.border-red { border: 2px solid var(--danger); }
+
+.btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.error-text { color: var(--danger); font-size: 0.875rem; margin-top: -0.5rem; margin-bottom: 1rem; }
